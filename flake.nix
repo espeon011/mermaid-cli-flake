@@ -24,9 +24,7 @@
             hash = "sha256-5AJZFZL5c0LCeo0hk+ONpGlY/LeB8XCKDZ6cug/TP2M=";
           };
 
-          nativeBuildInputs = [];
-          buildInputs = [];
-          packages = [
+          buildInputs = [
             pkgs.noto-fonts-cjk-sans
           ];
 
