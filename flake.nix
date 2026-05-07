@@ -24,10 +24,6 @@
             hash = "sha256-5AJZFZL5c0LCeo0hk+ONpGlY/LeB8XCKDZ6cug/TP2M=";
           };
 
-          buildInputs = [
-            pkgs.noto-fonts-cjk-sans
-          ];
-
           patches = [
             ./remove-puppeteer-from-dev-deps.patch # https://github.com/mermaid-js/mermaid-cli/issues/830
           ];
@@ -40,7 +36,17 @@
 
           npmBuildScript = "prepare";
 
-          makeWrapperArgs = pkgs.lib.lists.optional (pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkgs.chromium) "--set PUPPETEER_EXECUTABLE_PATH '${pkgs.lib.getExe pkgs.chromium}'";
+          fontsConf = pkgs.makeFontsConf {
+            fontDirectories = [
+              pkgs.noto-fonts-cjk-sans
+            ];
+          };
+
+          makeWrapperArgs =
+            (pkgs.lib.lists.optional
+              (pkgs.lib.meta.availableOn pkgs.stdenv.hostPlatform pkgs.chromium)
+              "--set PUPPETEER_EXECUTABLE_PATH '${pkgs.lib.getExe pkgs.chromium}'")
+            ++ ["--set FONTCONFIG_FILE '${finalAttrs.fontsConf}'"];
 
           meta = {
             description = "Generation of diagrams from text in a similar manner as markdown";
