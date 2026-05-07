@@ -24,6 +24,10 @@
             hash = "sha256-5AJZFZL5c0LCeo0hk+ONpGlY/LeB8XCKDZ6cug/TP2M=";
           };
 
+          buildInputs = [
+            pkgs.noto-fonts-cjk-sans
+          ];
+
           patches = [
             ./remove-puppeteer-from-dev-deps.patch # https://github.com/mermaid-js/mermaid-cli/issues/830
           ];
